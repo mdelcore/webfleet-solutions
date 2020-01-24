@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Helvetica;
+            font-size: 16px;
+            color: #455560;
+        }
+
+        .bars {
+            background-color: #bed52e;
+            height: 25px;
+            animation: width 1s ease-in;
+            
+        }
+
+        .number {
+            color: white;
+            text-align: right;
+            padding: 3px;
+            font-size: 16px;
+        }
+
+        #main {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            overflow: auto;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>WEB FLEET VEHICLES</h1>
+    <form name="form1">
+        <select id="sel" onChange="selMeasure()">
+            <option value="5">All</option>
+            <option value="2">Last 2 Years</option>
+            <option value="3">Last 3 Years</option>
+            <option value="4">Last 4 Years</option>
+        </select>
+    </form>
+    <div id="main">
+        <div id="cat"></div>
+        <div id="bars"></div>
+    </div>
+    <div></div>
+    <script>
+        var year = [
+            { name: "2018", Vehicles: 848000 },
+            { name: "2017", Vehicles: 785000 },
+            { name: "2016", Vehicles: 670000 },
+            { name: "2015", Vehicles: 600000 },
+            { name: "2014", Vehicles: 463000 }
+        ];
+
+        var measures = Object.keys(year[0]);
+
+        function writeData(x, m) {
+            document.getElementById("cat").innerHTML = "<strong>" + measures[x] + "</strong>";
+            document.getElementById("bars").innerHTML = ''
+            // document.write(measures.toString().replace(/[.]/, ","));
+            document.getElementById("bars").animate([
+                // keyframes
+                { transform: 'translateX(-1000px)' }, 
+                { transform: 'translateX(0px)' }
+                ], { 
+                // timing options
+                duration: 1000
+                });
+            
+            var maxValue = year[0].Vehicles;
+            for (var i = 0; i < m; i++) {
+                if(maxValue < year[i].Vehicles){
+                    maxValue = year[i].Vehicles;
+                }
+            }
+
+
+            for (var i = 0; i < m; i++) {
+
+                let container = document.createElement('div')
+
+                let bar = document.createElement('div')
+                bar.className = 'bars'
+                bar.setAttribute('style', "width: "+(year[i].Vehicles * 100 / maxValue) + "%")
+
+                let p = document.createElement('p')
+                p.className = 'number'
+                p.innerText = comma_seprated(year[i][measures[x]])
+
+
+
+                let name = document.createElement('div')
+                name.innerText = year[i][measures[0]]
+
+                bar.appendChild(p)
+                container.appendChild(bar)
+                container.appendChild(name)
+
+                document.getElementById("bars").append(container)
+            }
+        };
+
+        writeData(1, 5); // this is where we call the function the first time. 
+        function thousands_separators(num)
+        {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
+        
+        function comma_seprated(val){
+            var parts = val.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
+
+
+        function selMeasure() { // function that writes the data based on the dropdown selection
+            var m = document.getElementById("sel").value;
+            writeData(1, Number(m));
+        };// end selMeasure();
+
+    </script>
+
+</body>
+
+</html>
