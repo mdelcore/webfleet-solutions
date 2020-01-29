@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Webfleet Solutions</title>
-
+<html>
 
 <head>
     <style>
         body {
+            margin: 20px;
             font-family: Helvetica;
             font-size: 16px;
             color: #455560;
         }
-
         .bars {
             background-color: #bed52e;
             height: 25px;
@@ -23,7 +17,7 @@
         }
 
         .number {
-            color: white;
+            color: #455560;
             text-align: right;
             padding: 3px;
             font-size: 16px;
@@ -36,24 +30,77 @@
             padding: 10px;
             margin-top: 10px;
         }
+
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 25%;
+        }
+
+    </style>
+    <style type="text/css">
+        .dropbtn {
+          background-color: #455560;
+          color: white;
+          padding: 16px;
+          font-size: 16px;
+          border: none;
+          cursor: pointer;
+          width: 200px;
+        }
+
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+
+        .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+          background-color: #bed52e;
+        }
     </style>
 </head>
 
 <body>
-    <h1>WEB FLEET VEHICLES</h1>
-    <form name="form1">
-        <select id="sel" onChange="selMeasure()">
-            <option value="5">All</option>
-            <option value="2">Last 2 Years</option>
-            <option value="3">Last 3 Years</option>
-            <option value="4">Last 4 Years</option>
-        </select>
-    </form>
+    <img class="logo" src="https://i.imgur.com/cM0gPyj.png" alt="webfleet logo">
+ 
+        <div class="dropdown">
+          <button class="dropbtn" id="showText">Please Select Years</button>
+          <div class="dropdown-content">
+          <a onclick="selMeasureDropDown(5,'All')">All</a>
+          <a onclick="selMeasureDropDown(2,'Last 2 Years')">Last 2 Years</a>
+          <a onclick="selMeasureDropDown(3,'Last 3 Years')">Last 3 Years</a>
+          <a onclick="selMeasureDropDown(4,'Last 4 Years')">Last 4 Years</a>
+          </div>
+        </div>
+ 
     <div id="main">
         <div id="cat"></div>
         <div id="bars"></div>
     </div>
-    <div></div>
+
     <script>
         var year = [
             { name: "2018", Vehicles: 848000 },
@@ -68,7 +115,8 @@
         function writeData(x, m) {
             document.getElementById("cat").innerHTML = "<strong>" + measures[x] + "</strong>";
             document.getElementById("bars").innerHTML = ''
-            // document.write(measures.toString().replace(/[.]/, ","));
+            
+            // chart animation
             document.getElementById("bars").animate([
                 // keyframes
                 { transform: 'translateX(-1000px)' }, 
@@ -92,13 +140,11 @@
 
                 let bar = document.createElement('div')
                 bar.className = 'bars'
-                bar.setAttribute('style', "width: "+(year[i].Vehicles * 100 / maxValue) + "%")
+                bar.setAttribute('style', `width: ${(year[i].Vehicles * 100 / maxValue)}%`)
 
                 let p = document.createElement('p')
                 p.className = 'number'
                 p.innerText = comma_seprated(year[i][measures[x]])
-
-
 
                 let name = document.createElement('div')
                 name.innerText = year[i][measures[0]]
@@ -130,7 +176,14 @@
             var m = document.getElementById("sel").value;
             writeData(1, Number(m));
         };// end selMeasure();
+        
 
+        function selMeasureDropDown(m,txt) { // function that writes the data based on the dropdown selection
+            document.getElementById("showText").innerHTML = txt;
+            writeData(1, Number(m));
+        };
+
+        
     </script>
 
 </body>
