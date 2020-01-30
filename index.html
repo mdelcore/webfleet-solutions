@@ -14,11 +14,11 @@
             font-size: 16px;
             color: #455560;
         }
+
         .bars {
             background-color: #bed52e;
             height: 25px;
             animation: width 1s ease-in;
-            
         }
 
         .number {
@@ -42,6 +42,7 @@
             margin-right: auto;
             width: 25%;
         }
+
         .dropbtn {
           background-color: #455560;
           color: white;
@@ -73,7 +74,9 @@
           display: block;
         }
 
-        .dropdown-content a:hover {background-color: #f1f1f1}
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
 
         .dropdown:hover .dropdown-content {
           display: block;
@@ -137,7 +140,7 @@
                 }
             }
 
-
+            // this is where informaton from the object array is dynamically added to the div tags in the body section
             for (var i = 0; i < m; i++) {
 
                 let container = document.createElement('div')
